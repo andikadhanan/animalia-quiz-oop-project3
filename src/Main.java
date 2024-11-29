@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.sql.*;
 import javax.swing.*;
+import java.lang.reflect.Array;
 
 public class Main implements TimerListener {
     private JFrame frame;
@@ -247,8 +248,6 @@ public class Main implements TimerListener {
         SwingUtilities.invokeLater(this::showNextQuestion);
     }
 
-    /// cobaaa
-    // ngerun
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::new);
     }
