@@ -247,6 +247,7 @@ public class Main implements TimerListener {
         SwingUtilities.invokeLater(this::showNextQuestion);
     }
 
+    // ngerun
     public static void main(String[] args) {
         SwingUtilities.invokeLater(Main::new);
     }
