@@ -1,28 +1,33 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "animalia-quiz-oop-project3_bd54a0c4"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "animalia-quiz-oop-project2_bd54a0c3"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Classpath)",
-            "request": "launch",
-            "mainClass": "${file}",
-            "classPaths": [
-                "./libs/gson-2.11.0.jar"
-            ]
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "animalia-quiz-oop-project3_9284b0df"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "animalia-quiz-oop-project3_bd54a0c4"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "Main",
+      "projectName": "animalia-quiz-oop-project2_bd54a0c3"
+    },
+    {
+      "type": "java",
+      "name": "Debug (Classpath)",
+      "request": "launch",
+      "mainClass": "${file}",
+      "classPaths": ["./libs/gson-2.11.0.jar"]
+    }
+  ]
 }

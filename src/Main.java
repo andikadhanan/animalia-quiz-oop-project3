@@ -1,8 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.*;
 
 public class Main implements TimerListener {
     private JFrame frame;
@@ -37,14 +35,27 @@ public class Main implements TimerListener {
         frame = new JFrame("Quiz App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
+        frame.setLocationRelativeTo(null); // Center window
         frame.setLayout(new BorderLayout());
 
         // Panel input nama pengguna
         JPanel startPanel = new JPanel();
-        startPanel.setLayout(new BorderLayout());
-        JLabel nameLabel = new JLabel("Enter your name:", SwingConstants.CENTER);
+        startPanel.setLayout(new BoxLayout(startPanel, BoxLayout.Y_AXIS));
+        startPanel.setBackground(new Color(255, 250, 240)); // Light background color
+
+        JLabel nameLabel = new JLabel("Enter your name:");
+        nameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JTextField nameField = new JTextField();
+        nameField.setMaximumSize(new Dimension(300, 30)); // Max width for name input
+
         JButton startButton = new JButton("Start Quiz");
+        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startButton.setBackground(new Color(34, 193, 195)); // Attractive color
+        startButton.setForeground(Color.WHITE);
+        startButton.setFont(new Font("Arial", Font.BOLD, 14));
+        startButton.setFocusPainted(false);
 
         startButton.addActionListener(e -> {
             username = nameField.getText().trim();
@@ -56,9 +67,13 @@ public class Main implements TimerListener {
             selectFile();
         });
 
-        startPanel.add(nameLabel, BorderLayout.NORTH);
-        startPanel.add(nameField, BorderLayout.CENTER);
-        startPanel.add(startButton, BorderLayout.SOUTH);
+        startPanel.add(Box.createVerticalStrut(50)); // Add space on top
+        startPanel.add(nameLabel);
+        startPanel.add(Box.createVerticalStrut(20)); // Add space between name label and text field
+        startPanel.add(nameField);
+        startPanel.add(Box.createVerticalStrut(20)); // Add space between input and button
+        startPanel.add(startButton);
+        startPanel.add(Box.createVerticalStrut(50)); // Add space at the bottom
 
         frame.add(startPanel);
         frame.setVisible(true);
@@ -86,7 +101,8 @@ public class Main implements TimerListener {
             String filePath = fileChooser.getSelectedFile().getAbsolutePath();
             loadQuiz(filePath);
         } else {
-            JOptionPane.showMessageDialog(frame, "No file selected. Please select a valid JSON file.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "No file selected. Please select a valid JSON file.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -94,12 +110,14 @@ public class Main implements TimerListener {
         try {
             quizManager = new QuizManager(filePath);
             if (!quizManager.hasNextQuestion()) {
-                JOptionPane.showMessageDialog(frame, "The file is empty or invalid.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "The file is empty or invalid.", "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
             showNextQuestion();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(frame, "Error loading the quiz file. Please check the file format.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Error loading the quiz file. Please check the file format.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -113,11 +131,13 @@ public class Main implements TimerListener {
         Question question = quizManager.getNextQuestion();
 
         JPanel questionPanel = new JPanel(new BorderLayout());
+        questionPanel.setBackground(new Color(255, 250, 240)); // Set background color for questions
         JLabel questionLabel = new JLabel(question.getQuestion());
+        questionLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         questionLabel.setHorizontalAlignment(SwingConstants.CENTER);
         questionPanel.add(questionLabel, BorderLayout.NORTH);
 
-        JPanel optionsPanel = new JPanel(new GridLayout(2, 2));
+        JPanel optionsPanel = new JPanel(new GridLayout(2, 2, 10, 10)); // Adjust grid spacing
         ButtonGroup buttonGroup = new ButtonGroup();
 
         for (String option : question.getOptions()) {
@@ -165,7 +185,11 @@ public class Main implements TimerListener {
     private void showResult() {
         frame.getContentPane().removeAll();
         JLabel resultLabel = new JLabel("Quiz Complete! Your score: " + score, SwingConstants.CENTER);
+        resultLabel.setFont(new Font("Arial", Font.BOLD, 20));
         JButton leaderboardButton = new JButton("View Leaderboard");
+        leaderboardButton.setBackground(new Color(34, 193, 195));
+        leaderboardButton.setForeground(Color.WHITE);
+        leaderboardButton.setFont(new Font("Arial", Font.BOLD, 14));
 
         leaderboardButton.addActionListener(e -> showLeaderboard());
 
@@ -180,15 +204,18 @@ public class Main implements TimerListener {
         frame.getContentPane().removeAll();
 
         JPanel leaderboardPanel = new JPanel(new BorderLayout());
+        leaderboardPanel.setBackground(new Color(255, 250, 240));
+
         JLabel titleLabel = new JLabel("Leaderboard", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
         JTextArea leaderboardArea = new JTextArea();
         leaderboardArea.setEditable(false);
+        leaderboardArea.setFont(new Font("Arial", Font.PLAIN, 14));
 
         String query = "SELECT username, score FROM leaderboard ORDER BY score DESC";
         try (Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
+                ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 String user = rs.getString("username");
                 int userScore = rs.getInt("score");
@@ -203,6 +230,9 @@ public class Main implements TimerListener {
         leaderboardPanel.add(scrollPane, BorderLayout.CENTER);
 
         JButton backButton = new JButton("Back to Main");
+        backButton.setBackground(new Color(255, 69, 0)); // Back button color
+        backButton.setForeground(Color.WHITE);
+        backButton.setFont(new Font("Arial", Font.BOLD, 14));
         backButton.addActionListener(e -> frame.dispose());
 
         leaderboardPanel.add(backButton, BorderLayout.SOUTH);
